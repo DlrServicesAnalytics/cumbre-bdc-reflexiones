@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pantalla en vivo · Cumbre BDC Kia 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="qrcode.js"></script>
+<style>
+:root{--bg:#05141F;--panel:#0C2030;--line:#1E3A50;--tx:#F2F5F7;--mute:#8FA3B3;--acc:#3DD6C4}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--tx);overflow:hidden;-webkit-font-smoothing:antialiased;font-size:clamp(12px,0.9vw,22px)}
+.top{display:flex;align-items:center;gap:1.4em;padding:0 2em;border-bottom:1px solid var(--line);height:5em}
+.lg{display:flex;gap:1em;align-items:center}.lg .kia{height:1.8em}.lg .cdk{height:1.5em}.lg .sep{width:1px;height:1.5em;background:var(--line)}
+.ev{font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:.85em;color:var(--mute)}
+.live{display:flex;align-items:center;gap:.5em;font-weight:700;font-size:.85em;color:#FF5B5B;letter-spacing:.1em}
+.live i{width:.7em;height:.7em;border-radius:50%;background:#FF5B5B;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.sp{flex:1}
+.fx{display:grid;grid-template-columns:1fr 21em;gap:2em;height:calc(100vh - 5em);padding:1.8em 2em}
+.main{display:flex;flex-direction:column;min-height:0}
+.kick{color:var(--acc);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.9em}
+h1{font-size:2.9em;line-height:1.12;margin:.25em 0 .9em;max-width:22em;text-wrap:balance}
+.cards{flex:1;overflow:hidden;columns:3 17em;column-gap:1em;mask-image:linear-gradient(#000 85%,transparent);-webkit-mask-image:linear-gradient(#000 85%,transparent)}
+.card{break-inside:avoid;background:var(--panel);border-radius:.9em;padding:1.1em 1.25em;margin-bottom:1em;border-left:.3em solid var(--acc);position:relative}
+.card p{font-size:1.2em;line-height:1.45}
+.card .t{font-size:.75em;color:var(--mute);font-weight:600;margin-top:.6em}
+.card.new{animation:pop .9s ease-out}
+@keyframes pop{0%{transform:scale(.9);opacity:0}40%{opacity:1}100%{transform:none}}
+.card.hid{opacity:.35}
+.card .hide{all:unset;cursor:pointer;position:absolute;top:.6em;right:.8em;font-size:.75em;font-weight:700;color:#FF8A8A;display:none}
+body.mod .card .hide{display:block}
+.side{background:var(--panel);border-radius:1em;padding:1.8em;display:flex;flex-direction:column;align-items:center;text-align:center}
+.side h3{font-size:1.35em;line-height:1.25}
+.side .qr{background:#fff;padding:.8em;border-radius:.8em;margin:1.1em 0}
+.side .qr svg{display:block;width:15em;height:15em}
+.side .url{font-size:.8em;color:var(--mute);word-break:break-all}
+.side .anon{font-size:.85em;color:var(--mute);margin-top:.8em}
+.side .c{margin-top:auto;font-size:4.8em;font-weight:800;color:var(--acc);line-height:1;font-variant-numeric:tabular-nums}
+.side .cl{color:var(--mute);font-size:.95em}
+.empty{color:var(--mute);font-size:1.3em;padding:1em 0}
+#modbar{position:fixed;bottom:1em;right:1em;background:#3A1220;border:1px solid #7A2A40;border-radius:.8em;padding:.8em 1em;display:none;gap:.8em;align-items:center;font-size:.85em;z-index:5}
+body.mod #modbar{display:flex}
+#modbar button{all:unset;cursor:pointer;background:#fff;color:#05141F;font-weight:700;padding:.45em .8em;border-radius:.45em}
+#login{position:fixed;inset:0;background:rgba(5,20,31,.85);display:none;place-items:center;z-index:9}
+#login.on{display:grid}
+#login form{background:var(--panel);border:1px solid var(--line);border-radius:1em;padding:1.6em;display:flex;gap:.6em;align-items:center}
+#login input{font:inherit;padding:.5em .7em;border-radius:.4em;border:1px solid var(--line);background:var(--bg);color:var(--tx)}
+#login button{all:unset;cursor:pointer;background:#fff;color:#05141F;font-weight:700;padding:.5em .9em;border-radius:.45em}
+.demo{position:fixed;bottom:1em;left:1em;background:#5A4200;color:#FFE4A0;font-size:.8em;padding:.5em .9em;border-radius:.6em;display:none}
+.hint{position:fixed;bottom:1em;left:50%;transform:translateX(-50%);color:var(--mute);font-size:.75em;opacity:0;transition:opacity .4s}
+body:hover .hint{opacity:.7}
+@media (prefers-reduced-motion:reduce){.card.new,.live i{animation:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="lg"><img class="kia" src="assets/logo-kia.png" alt="Kia" onerror="this.remove()"><span class="sep"></span><img class="cdk" src="assets/logo-cdk.png" alt="CDK Global" onerror="this.remove()"></div>
+  <div class="ev">Cumbre Líderes de BDC Kia México 2026</div>
+  <div class="sp"></div>
+  <div class="live"><i></i>EN VIVO</div>
+</div>
+<div class="fx">
+  <div class="main">
+    <div class="kick">La pregunta clave de la cumbre</div>
+    <h1 id="preg"></h1>
+    <div class="cards" id="cards"></div>
+  </div>
+  <div class="side">
+    <h3>Escanea y comparte tu respuesta</h3>
+    <div class="qr" id="qr"></div>
+    <div class="url" id="url"></div>
+    <div class="anon">Es anónimo. Puedes enviar varias ideas.</div>
+    <div class="c" id="count">0</div><div class="cl">respuestas</div>
+  </div>
+</div>
+<div id="modbar"><span id="modinfo"></span><button id="bExp" type="button">Exportar a Excel</button><button id="bRest" type="button">Restaurar ocultas</button><button id="bOff" type="button">Salir</button></div>
+<div id="login"><form id="lf"><span>Clave de moderador</span><input id="pw" type="password" autocomplete="off"><button type="submit">Entrar</button></form></div>
+<div class="demo" id="demo">Modo demostración (sin Firebase)</div>
+<div class="hint">F pantalla completa · M moderador</div>
+
+<script type="module">
+import { PREGUNTA } from "./data.js";
+import { store, MODE } from "./store.js";
+import { CLAVE_MODERADOR } from "./config.js";
+
+const $ = s => document.getElementById(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const URL_CAPTURA = location.href.replace(/pantalla\.html.*$/, "").replace(/[?#].*$/, "");
+const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const BAD = /\b(pendej\w*|ching\w*|verga\w*|put[oa]s?|mierd\w*|cabr[oó]n\w*|culer\w*|jod\w*|idiota\w*|imb[eé]cil\w*|pinch[ei]\w*|mamad\w*)\b/i;
+
+const st = { data: [], mod: false, hidden: new Set(lsGet("cumbre_hidden", [])), seen: new Set(), first: true };
+const isHidden = r => st.hidden.has(r.id) || BAD.test(r.text || "");
+const hhmm = t => new Date(t).toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" });
+
+$("preg").textContent = PREGUNTA;
+$("url").textContent = URL_CAPTURA.replace(/^https?:\/\//, "");
+if (window.qrcode) { const q = qrcode(0, "M"); q.addData(URL_CAPTURA); q.make(); $("qr").innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); }
+if (MODE === "demo") $("demo").style.display = "block";
+
+function render() {
+  const vis = st.data.filter(r => st.mod || !isHidden(r));
+  $("count").textContent = st.data.filter(r => !isHidden(r)).length;
+  $("cards").innerHTML = vis.slice(0, 80).map(r => `<div class="card ${!st.first && !st.seen.has(r.id) ? "new" : ""} ${isHidden(r) ? "hid" : ""}">
+      <p>${esc(r.text)}</p><div class="t">${hhmm(r.ts)}</div>
+      <button class="hide" type="button" data-id="${r.id}">${st.hidden.has(r.id) ? "Mostrar" : "Ocultar"}</button></div>`).join("")
+    || `<div class="empty">Esperando las primeras respuestas… escanea el código QR.</div>`;
+  $("cards").querySelectorAll(".hide").forEach(b => b.onclick = () => { const id = b.dataset.id; st.hidden.has(id) ? st.hidden.delete(id) : st.hidden.add(id); lsSet("cumbre_hidden", [...st.hidden]); render(); });
+  st.data.forEach(r => st.seen.add(r.id)); st.first = false;
+  $("modinfo").textContent = `Moderador · ${st.data.filter(isHidden).length} ocultas`;
+}
+
+function exportCSV() {
+  const rows = st.data.slice().sort((a, b) => a.ts - b.ts).map((r, i) => { const d = new Date(r.ts); return [i + 1, PREGUNTA, r.text, d.toLocaleDateString("es-MX"), d.toLocaleTimeString("es-MX"), isHidden(r) ? "Sí" : "No"]; });
+  const csv = "﻿" + [["No.", "Pregunta", "Respuesta", "Fecha", "Hora", "Oculta en pantalla"], ...rows].map(r => r.map(v => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\r\n");
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  a.download = `respuestas_cumbre_bdc_${new Date().toISOString().slice(0, 10)}.csv`; a.click();
+}
+function modOff() { st.mod = false; document.body.classList.remove("mod"); render(); }
+$("lf").onsubmit = e => { e.preventDefault(); if ($("pw").value === CLAVE_MODERADOR) { st.mod = true; document.body.classList.add("mod"); render(); } $("pw").value = ""; $("login").classList.remove("on"); };
+$("bExp").onclick = exportCSV;
+$("bRest").onclick = () => { st.hidden.clear(); lsSet("cumbre_hidden", []); render(); };
+$("bOff").onclick = modOff;
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT") { if (e.key === "Escape") $("login").classList.remove("on"); return; }
+  const k = e.key.toLowerCase();
+  if (k === "f") { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
+  else if (k === "m") { if (st.mod) modOff(); else { $("login").classList.add("on"); $("pw").focus(); } }
+});
+
+render();
+const s = await store();
+s.listen(d => { st.data = d; render(); }, err => { $("cards").innerHTML = `<div class="empty">Error de conexión con la base de datos: ${esc(err.message)}</div>`; });
+</script>
+</body>
+</html>
